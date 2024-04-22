@@ -1,6 +1,14 @@
+export enum STATE {
+  PENDING = 'PENDING',
+  PROCESSING = 'PROCESSING',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELED = 'CANCELED',
+}
+
 export interface Order {
   orderNumber: string;
-  status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELED';
+  status: STATE;
   deletedAt?: Date | null;
   // items: Array<OrderItem>
 }

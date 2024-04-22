@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersService } from './orders.service';
+import { STATE } from './orders.interface';
 
 describe('OrdersService', () => {
   let service: OrdersService;
@@ -17,35 +18,30 @@ describe('OrdersService', () => {
   });
 
   it('should create order', async () => {
-    const order = service.create({ orderNumber: '1234', status: 'PENDING' });
+    const order = service.create();
     expect(order).toEqual({
-      orderNumber: '1234',
+      orderNumber: '0000000001',
       status: 'PENDING',
     });
   });
 
   it('should list orders', async () => {
-    service.create({ orderNumber: '1234', status: 'PENDING' });
-    expect(service.findAll()).toEqual([
-      {
-        orderNumber: '1234',
-        status: 'PENDING',
-      },
-    ]);
+    const order = service.create();
+    expect(service.findAll()).toEqual([order]);
   });
 
   it('should delete order', async () => {
-    service.create({ orderNumber: '1234', status: 'PENDING' });
-    service.delete('1234');
+    const order = service.create();
+    service.delete(order.orderNumber);
     expect(service.findAll()).toEqual([]);
   });
 
   it('should update state', async () => {
-    service.create({ orderNumber: '1234', status: 'PENDING' });
-    service.update('1234', { status: 'SHIPPED' });
+    const order = service.create();
+    service.update(order.orderNumber, { status: STATE.SHIPPED });
     expect(service.findAll()).toEqual([
       {
-        orderNumber: '1234',
+        orderNumber: order.orderNumber,
         status: 'SHIPPED',
       },
     ]);
