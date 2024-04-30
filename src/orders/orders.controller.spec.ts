@@ -3,12 +3,14 @@ import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { HttpException } from '@nestjs/common';
 import { STATE } from './orders.interface';
+import { AuthModule } from '../auth/auth.module';
 
 describe('OrdersController', () => {
   let controller: OrdersController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [AuthModule],
       controllers: [OrdersController],
       providers: [OrdersService],
     }).compile();
